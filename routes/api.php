@@ -2,24 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+use App\Http\Controllers\Api\CurrencyController;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('client')->get('sample', function() {
-    return response()->json([
-        'success'=> true
-    ]);
+Route::middleware('client')->group(function() {
+    Route::get('/currency-change-in-period', [CurrencyController::class, 'percentageChangeInPeriod']);
+    Route::get('/currency-change-between-dates', [CurrencyController::class, 'percentageChange']);
 });
